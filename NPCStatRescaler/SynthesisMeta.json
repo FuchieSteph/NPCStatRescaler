@@ -1,8 +1,8 @@
 {
   "Nickname": "NPCStatRescaler",
   "Visibility": "Visible",
-  "OneLineDescription": "",
-  "LongDescription": "",
+  "OneLineDescription": "Port of NPC Stat Rescaler: https://www.nexusmods.com/skyrimspecialedition/mods/24254",
+  "LongDescription": "Port of NPC Stat Rescaler\nhttps://www.nexusmods.com/skyrimspecialedition/mods/24254",
   "PreferredAutoVersioning": "Default",
   "RequiredMods": []
 }
