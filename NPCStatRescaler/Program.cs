@@ -1,11 +1,13 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Mutagen.Bethesda;
 using Mutagen.Bethesda.Synthesis;
 using Mutagen.Bethesda.Skyrim;
 using System.Threading.Tasks;
 using Mutagen.Bethesda.FormKeys.SkyrimSE;
+using Mutagen.Bethesda.Plugins;
+using Mutagen.Bethesda.Plugins.Cache;
+using Mutagen.Bethesda.Plugins.Order;
 using Noggog;
 using NPCStatRescaler.Settings;
 
@@ -14,7 +16,7 @@ namespace NPCStatRescaler
     public class Program
     {
         private static Lazy<Config> _settings = null!;
-        private static LoadOrder<IModListing<ISkyrimModGetter>> _loadOrder = null!;
+        private static ILoadOrder<IModListing<ISkyrimModGetter>> _loadOrder = null!;
         private static ISkyrimMod _patchMod = null!;
         private static ILinkCache<ISkyrimMod, ISkyrimModGetter> _linkCache = null!;
         private static Spell _healthRegenAbility = null!;
