@@ -41,7 +41,7 @@ namespace NPCStatRescaler
             healthRegenAbility.Effects.Add(new Effect
             {
                 BaseEffect = Skyrim.MagicEffect.AbDamageHealRate.AsNullable(),
-                Data = new EffectData {Magnitude = 100}
+                Data = new EffectData {Magnitude = 100 * _settings.Value.HealthRegen.PlayableRaceHealthRegenDebuff}
             });
             _healthRegenAbility = healthRegenAbility;
         }
