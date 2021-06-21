@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using Mutagen.Bethesda.Plugins;
+using Mutagen.Bethesda.Skyrim;
 
 namespace NPCStatRescaler.Settings
 {
@@ -51,6 +53,7 @@ namespace NPCStatRescaler.Settings
             }}
         };
 
+        public List<FormLink<IRaceGetter>> RacesToExclude { get; set; } = new(); 
         public ClassScales Class { get; set; } = new();
         public NpcOffsetMults NpcOffsetMults { get; set; } = new();
         public int NpcHealthBonusPerLevel { get; set; } = 0;
