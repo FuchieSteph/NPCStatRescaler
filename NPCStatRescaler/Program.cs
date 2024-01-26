@@ -80,7 +80,7 @@ namespace NPCStatRescaler
             foreach (INpcGetter npc in _loadOrder.PriorityOrder.Npc().WinningOverrides())
             {
 
-                if(npcsToIgnore.Contains(npc) && !npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats)) 
+                if(npcsToIgnore.Contains(npc) || npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats)) 
                 {
                     continue;
                 }
