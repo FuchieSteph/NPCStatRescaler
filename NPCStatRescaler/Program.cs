@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using Mutagen.Bethesda;
 using Mutagen.Bethesda.Synthesis;
@@ -60,13 +61,26 @@ namespace NPCStatRescaler
             }
         }
 
+        public static HashSet<IFormLinkGetter<INpcGetter>> npcsToIgnore = new()
+        {
+            Skyrim.Npc.MQ101Bear,
+            Skyrim.Npc.WatchesTheRootsCorpse,
+            Skyrim.Npc.BreyaCorpse,
+            Skyrim.Npc.WatchesTheRoots,
+            Skyrim.Npc.Drennen,
+            Skyrim.Npc.Breya,
+            Skyrim.Npc.dunHunterBear,
+            Skyrim.Npc.dunBluePalacePelagiusSuspicious,
+            Skyrim.Npc.dunBluePalacePelagiusNightmare,
+            Dawnguard.Npc.DLC1HowlSummonWerewolf,
+        };
+
         private static void PatchNPCs()
         {
             foreach (INpcGetter npc in _loadOrder.PriorityOrder.Npc()
                 .WinningOverrides()
                 .Where(npc =>
-                    (!npc.Equals(Skyrim.Npc.dunBluePalacePelagiusSuspicious) &&
-                     !npc.Equals(Skyrim.Npc.dunBluePalacePelagiusNightmare)) &&
+                     (!npcsToIgnore.Contains(npc) && !npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats)) &&
                      npc.Configuration.HealthOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.HealthOffsetMult - 1) > 0.001 ||
                      npc.Configuration.StaminaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.StaminaOffsetMult - 1) > 0.001 ||
                      npc.Configuration.MagickaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.MagickaOffsetMult - 1) > 0.001))
@@ -212,10 +226,10 @@ namespace NPCStatRescaler
             _loadOrder = state.LoadOrder;
             _patchMod = state.PatchMod;
             CreateAbility();
-            //PatchClasses();
-            PatchNPCs();
+            PatchClasses();
+            //PatchNPCs();
             PatchGameSettings();
-            //PatchRaces();
+            PatchRaces();
         }
     }
 }
