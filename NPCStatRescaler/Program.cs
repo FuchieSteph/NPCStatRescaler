@@ -226,10 +226,10 @@ namespace NPCStatRescaler
             _loadOrder = state.LoadOrder;
             _patchMod = state.PatchMod;
             CreateAbility();
-            PatchClasses();
+            //PatchClasses();
             PatchNPCs();
             PatchGameSettings();
-            PatchRaces();
+            //PatchRaces();
         }
     }
 }
