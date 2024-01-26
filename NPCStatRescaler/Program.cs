@@ -225,11 +225,11 @@ namespace NPCStatRescaler
             _linkCache = state.LinkCache;
             _loadOrder = state.LoadOrder;
             _patchMod = state.PatchMod;
-            CreateAbility();
-            //PatchClasses();
-            PatchNPCs();
-            PatchGameSettings();
-            //PatchRaces();
+            //CreateAbility();
+            PatchClasses();
+            //PatchNPCs();
+            //PatchGameSettings();
+            PatchRaces();
         }
     }
 }
