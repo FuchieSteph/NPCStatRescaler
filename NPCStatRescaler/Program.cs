@@ -79,7 +79,7 @@ namespace NPCStatRescaler
             foreach (INpcGetter npc in _loadOrder.PriorityOrder.Npc()
                 .WinningOverrides()
                 .Where(npc =>
-                     (!npcsToIgnore.Contains(npc) && !npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats))
+                     (!npcsToIgnore.Contains(npc) && !npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats)) &&
                      npc.Configuration.HealthOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.HealthOffsetMult - 1) > 0.001 ||
                      npc.Configuration.StaminaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.StaminaOffsetMult - 1) > 0.001 ||
                      npc.Configuration.MagickaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.MagickaOffsetMult - 1) > 0.001))
@@ -225,8 +225,10 @@ namespace NPCStatRescaler
             _loadOrder = state.LoadOrder;
             _patchMod = state.PatchMod;
             CreateAbility();
+            PatchClasses();
             PatchNPCs();
             PatchGameSettings();
+            PatchRaces();
         }
     }
 }
