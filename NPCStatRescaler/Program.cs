@@ -77,14 +77,14 @@ namespace NPCStatRescaler
 
         private static void PatchNPCs()
         {
-            foreach (INpcGetter npc in _loadOrder.PriorityOrder.Npc()
-                .WinningOverrides()
-                .Where(npc =>
-                     (!npcsToIgnore.Contains(npc) && !npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats)) &&
-                     npc.Configuration.HealthOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.HealthOffsetMult - 1) > 0.001 ||
-                     npc.Configuration.StaminaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.StaminaOffsetMult - 1) > 0.001 ||
-                     npc.Configuration.MagickaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.MagickaOffsetMult - 1) > 0.001))
+            foreach (INpcGetter npc in _loadOrder.PriorityOrder.Npc().WinningOverrides())
             {
+
+                if(npcsToIgnore.Contains(npc) && !npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats)) 
+                {
+                    continue;
+                }
+
                 var npcCopy = _patchMod.Npcs.GetOrAddAsOverride(npc);
                 if (npcCopy.Equals(Skyrim.Npc.Player))
                 {
@@ -94,15 +94,24 @@ namespace NPCStatRescaler
                     continue;
                 }
 
-                npcCopy.Configuration.HealthOffset = (short) Math.Round(npcCopy.Configuration.HealthOffset *
+                if(npc.Configuration.HealthOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.HealthOffsetMult - 1) > 0.001) {
+                    npcCopy.Configuration.HealthOffset = (short) Math.Round(npcCopy.Configuration.HealthOffset *
                                                                         _settings.Value.NpcOffsetMults
                                                                             .HealthOffsetMult);
-                npcCopy.Configuration.StaminaOffset = (short) Math.Round(npcCopy.Configuration.StaminaOffset *
+    
+                }
+
+                if(npc.Configuration.StaminaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.StaminaOffsetMult - 1) > 0.001) {
+                    npcCopy.Configuration.StaminaOffset = (short) Math.Round(npcCopy.Configuration.StaminaOffset *
                                                                          _settings.Value.NpcOffsetMults
                                                                              .StaminaOffsetMult);
-                npcCopy.Configuration.MagickaOffset = (short) Math.Round(npcCopy.Configuration.MagickaOffset *
+                }
+
+                if(npc.Configuration.MagickaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.MagickaOffsetMult - 1) > 0.001) {
+                    npcCopy.Configuration.MagickaOffset = (short) Math.Round(npcCopy.Configuration.MagickaOffset *
                                                                          _settings.Value.NpcOffsetMults
                                                                              .MagickaOffsetMult);
+                }
             }
         }
 
