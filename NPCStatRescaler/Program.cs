@@ -77,15 +77,14 @@ namespace NPCStatRescaler
 
         private static void PatchNPCs()
         {
-            foreach (npc in _loadOrder.PriorityOrder.Npc().WinningOverrides())
+            foreach (INpcGetter npc in _loadOrder.PriorityOrder.Npc()
+                .WinningOverrides()
+                .Where(npc =>
+                     (!npcsToIgnore.Contains(npc) && !npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats)) &&
+                     npc.Configuration.HealthOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.HealthOffsetMult - 1) > 0.001 ||
+                     npc.Configuration.StaminaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.StaminaOffsetMult - 1) > 0.001 ||
+                     npc.Configuration.MagickaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.MagickaOffsetMult - 1) > 0.001))
             {
-
-                if(npcsToIgnore.Contains(npc) || npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats)) 
-                {
-                    Console.WriteLine("Warning, the following NPCs were at a lower level than the patcher expected (i.e. below the lower bound of the starting range). Its not a problem, and they have been patched, chances are another mod has changed their level too. This is just to let you know.");
-                    continue;
-                }
-
                 var npcCopy = _patchMod.Npcs.GetOrAddAsOverride(npc);
                 if (npcCopy.Equals(Skyrim.Npc.Player))
                 {
@@ -95,33 +94,15 @@ namespace NPCStatRescaler
                     continue;
                 }
 
-                bool skip = true;
-
-                if(npc.Configuration.HealthOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.HealthOffsetMult - 1) > 0.001) {
-                    npcCopy.Configuration.HealthOffset = (short) Math.Round(npcCopy.Configuration.HealthOffset *
+                npcCopy.Configuration.HealthOffset = (short) Math.Round(npcCopy.Configuration.HealthOffset *
                                                                         _settings.Value.NpcOffsetMults
                                                                             .HealthOffsetMult);
-
-                    skip = false;
-                }
-
-                if(npc.Configuration.StaminaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.StaminaOffsetMult - 1) > 0.001) {
-                    npcCopy.Configuration.StaminaOffset = (short) Math.Round(npcCopy.Configuration.StaminaOffset *
+                npcCopy.Configuration.StaminaOffset = (short) Math.Round(npcCopy.Configuration.StaminaOffset *
                                                                          _settings.Value.NpcOffsetMults
                                                                              .StaminaOffsetMult);
-                    
-                    skip = false;
-                }
-
-                if(npc.Configuration.MagickaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.MagickaOffsetMult - 1) > 0.001) {
-                    npcCopy.Configuration.MagickaOffset = (short) Math.Round(npcCopy.Configuration.MagickaOffset *
+                npcCopy.Configuration.MagickaOffset = (short) Math.Round(npcCopy.Configuration.MagickaOffset *
                                                                          _settings.Value.NpcOffsetMults
                                                                              .MagickaOffsetMult);
-
-                    skip = false;
-                }
-
-                if (skip) continue;
             }
         }
 
