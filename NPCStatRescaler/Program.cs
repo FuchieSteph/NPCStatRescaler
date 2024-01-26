@@ -81,9 +81,9 @@ namespace NPCStatRescaler
                 .WinningOverrides()
                 .Where(npc =>
                      (!npcsToIgnore.Contains(npc) && !npc.Configuration.TemplateFlags.HasFlag(NpcConfiguration.TemplateFlag.Stats)) &&
-                     npc.Configuration.HealthOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.HealthOffsetMult - 1) > 0.001 ||
+                     (npc.Configuration.HealthOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.HealthOffsetMult - 1) > 0.001 ||
                      npc.Configuration.StaminaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.StaminaOffsetMult - 1) > 0.001 ||
-                     npc.Configuration.MagickaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.MagickaOffsetMult - 1) > 0.001))
+                     npc.Configuration.MagickaOffset != 0 && Math.Abs(_settings.Value.NpcOffsetMults.MagickaOffsetMult - 1) > 0.001)))
             {
                 var npcCopy = _patchMod.Npcs.GetOrAddAsOverride(npc);
                 if (npcCopy.Equals(Skyrim.Npc.Player))
